@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "STUDY_ROOT=\"$HOME/study\" bash \"$HOME/.claude/hooks/coverage_judge_gate.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
