@@ -68,9 +68,9 @@
   <path class="flow" d="M1136,194 L1136,330 L1080,330 L1080,368" marker-end="url(#a)"/>
   <rect class="gate" x="830" y="370" width="380" height="108" rx="10"/>
   <text x="844" y="394" class="t">Cold coverage judge (§2.7.3)</text>
-  <text x="844" y="414" class="s">fresh subagent reads the coverage file + raw turns</text>
+  <text x="844" y="414" class="s">fresh subagent: coverage file + this concept's raw turns</text>
   <text x="844" y="432" class="s">never mentioned → auto-fill once</text>
-  <text x="844" y="450" class="s">touched in a detour → you decide taught / refill</text>
+  <text x="844" y="450" class="s">detour or LLM-only → you decide taught / refill</text>
   <text x="844" y="468" class="s">all items covered → judged: true</text>
 
   <line class="flow" x1="830" y1="424" x2="776" y2="424" marker-end="url(#a)"/>
