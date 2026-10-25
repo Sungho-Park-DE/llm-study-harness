@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install check dependencies
+        run: python -m pip install pyyaml
+
+      - name: Hook tests
+        run: bash tests/test_coverage_gate.sh
+
+      - name: Repo checks (frontmatter, § refs, paths, privacy guard)
+        run: python tests/check_repo.py
+
+      - name: Scripts compile and run without credentials
+        run: |
+          python -m py_compile scripts/mathpix_convert.py scripts/_parse_diagrams.py
+          python scripts/mathpix_convert.py --help > /dev/null
+          echo '{"pages":[]}' > /tmp/lines.json && python scripts/_parse_diagrams.py /tmp/lines.json
+
+      - name: Installer dry run
+        run: CLAUDE_HOME="$RUNNER_TEMP/claude" ./install.sh
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: shellcheck
+        run: shellcheck -S warning hooks/coverage_judge_gate.sh tests/test_coverage_gate.sh install.sh
