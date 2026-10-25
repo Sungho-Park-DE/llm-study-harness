@@ -60,22 +60,22 @@ Precedence when files disagree, highest first, defined in the master doc Part 1:
 
 **Learning-science basis.** Each rule in the master doc carries its source inline. The main ones:
 
-| Mechanism in the harness | Source cited in the doc |
-|---|---|
-| Stage 2 pre-attempt before instruction | Richland, Kornell & Kao 2009; Kornell, Hays & Bjork 2009 (pretesting effect) |
-| Stage 3 self-explanation at principle-bearing steps only | Chi 1989; Renkl 1997; Kalyuga 2007 |
-| Compressed entry when the pre-attempt is already correct | Kalyuga 2003/2007 (expertise reversal); Salden et al. 2010 |
-| Stage 4 completion-problem fading; proof-shaped prompts | Renkl & Atkinson 2003; Hodds, Alcock & Inglis 2014 |
-| Comparing two worked examples | Alfieri, Nokes-Malach & Schunn 2013 |
-| Calibration: user predicts first, then sees the LLM estimate | Tversky & Kahneman 1974 (anchoring); Koriat 1997; Hacker et al. 2000 |
-| "What you got right" stated as data, never as praise | Butler, Karpicke & Roediger 2008; Kluger & DeNisi 1996 |
-| High-confidence errors get extra feedback | Butterfield & Metcalfe 2001; Metcalfe 2017 |
-| A weak spot resolves only after an unaided retrieval | Rawson & Dunlosky 2011 (successive relearning) |
-| Interleaved, unlabeled multi-unit review | Rohrer, Dedrick & Stershic 2015; Brunmair & Richter 2019 |
-| Transfer drills with feedback after every solve | Pan & Rickard 2018; Butler 2010 |
-| Unassisted solo blocks and timed mocks | Bastani et al. 2025 (PNAS); Zhang, Morphew & Stelzer 2023 |
+| Mechanism in the harness | Source cited in the doc | What the source actually supports |
+|---|---|---|
+| Stage 2 pre-attempt before instruction | Richland, Kornell & Kao 2009; Kornell, Hays & Bjork 2009 | Pretesting helps even when the answer is wrong (text passages, trivia, word pairs); extending it to problem pre-attempts is an extrapolation |
+| Stage 3 self-explanation at principle-bearing steps only | Chi et al. 1989; Renkl 1997 | Explanation quality predicts gains (correlational); selective prompting itself is a design inference |
+| Compressed entry when the pre-attempt is already correct | Kalyuga, Ayres, Chandler & Sweller 2003; Kalyuga 2007; Salden et al. 2010 | Expertise reversal; adaptive fading beat fixed fading in a tutored geometry setting |
+| Stage 4 fading; proof-shaped prompts | Renkl & Atkinson 2003; Hodds, Alcock & Inglis 2014 | Fading for computational problems; self-explanation training improved proof comprehension (d≈0.95). The proof ladder and two of the three proof prompts are additions |
+| Comparing two worked examples | Alfieri, Nokes-Malach & Schunn 2013 | Case comparison beats single-case study (meta-analysis, d≈0.50) |
+| Calibration: user predicts first, then sees the LLM estimate | Tversky & Kahneman 1974; Koriat 1997; Hacker et al. 2000 | Anchoring is a risk; calibration is hard to train, and prediction feedback helped mainly higher performers. The order is a design choice |
+| "What you got right" stated as data, never as praise | Butler, Karpicke & Roediger 2008; Kluger & DeNisi 1996 | Feedback doubled retention of low-confidence correct answers; self-focused feedback can backfire |
+| High-confidence errors are flagged for feedback and re-test | Butterfield & Metcalfe 2001; Metcalfe 2017 | Such errors are the most correctable (hypercorrection); the extra re-test is a design choice |
+| A weak spot resolves after an unaided retrieval | Rawson & Dunlosky 2011 | The paper recommends more (3 spaced relearning sessions); one success is a pragmatic minimum |
+| Interleaved, unlabeled multi-unit review | Rohrer, Dedrick & Stershic 2015; Brunmair & Richter 2019 | Interleaved math practice d≈0.79 at 30 days; benefits largest for confusable categories |
+| Transfer drills with feedback after every solve | Pan & Rickard 2018; Butler 2010 | Transfer depends on elaborated retrieval/feedback and initial accuracy (meta-analysis, d≈0.40) |
+| Unassisted solo blocks and timed mocks | Bastani et al. 2025 (PNAS); Zhang, Morphew & Stelzer 2023 | AI-assisted practice gains did not carry over to unassisted exams; a mock exam alone did not improve metacognition, so the post-mock review is mandatory |
 
-The doc cites about 25 works in total. These are the citations as written in the doc. I did not re-verify them for this README. The doc itself notes (§1.14) that an earlier reference file it replaced contained citation errors and asks for fresh verification before relying on a claim.
+All 25 cited works were checked against their abstracts or full texts (2026-10). Every work exists with the cited authors and year; where the doc had drawn more from a paper than it shows, the wording in the doc now says what the paper found and marks the rest as a design choice. A few details could not be checked behind paywalls.
 
 **Why a cold judge plus a hook.** In a long tutoring session the main context drifts: it compresses what was covered and stops noticing what was skipped. So coverage is checked by a **fresh subagent** that reads two things from disk: the coverage list written at SCAN time, before any drift, and the raw dialogue turns, never a summary written by the main session. The doc records an informal stress test in which a summary-based handoff made the judge flag 16 items against 3 real gaps (§2.7.3). Prompt-level rules can be forgotten, so the stop condition is backed by a `UserPromptSubmit` hook. A session-end message such as "done for today", "stop" or `/makereview` is blocked while any recent coverage file still says `judged: false`. A blocked prompt never reaches the model, so the hook's message tells the *user* to ask for the judge first.
 

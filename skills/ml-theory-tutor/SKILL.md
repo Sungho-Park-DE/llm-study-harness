@@ -25,7 +25,7 @@ defaults (batched understanding checks, conversation-start questions)
 describe **ad-hoc work outside a Sprint**; where they conflict
 mid-Sprint, yield to the master. (Why: the Sprint's stage mechanics are
 deliberate exceptions to conversational defaults — e.g. Stage 3 blocks
-at principle-bearing steps by design, Chi 1989 / Renkl 1997 — and the
+at principle-bearing steps by design, Chi et al. 1989 / Renkl 1997 — and the
 master is the learning-method SSOT.)
 
 ## Language Policy (CRITICAL)
